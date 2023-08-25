@@ -24,7 +24,7 @@ body {
   margin: 1rem;
   text-align: center;
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   justify-content: center;
   font-size: 1rem;
 }
@@ -44,6 +44,7 @@ input#search-location {
 .search-results {
   font-family: 'Times New Roman', Times, serif;
   font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .search-results::after {
@@ -60,10 +61,49 @@ input#search-location {
 
 .current-weather-display {
     background-color: rgb(255, 255, 255, 0.7);
-    padding: 0.5rem;
-    display: none;
+    padding: 1rem;
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
-.visible {
+.weather-forecast-container {
     display: block;
+}
+
+.weather-forecast-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.weather-forecast-title {
+    font-size: 1.5rem;
+    font-family: 'Times New Roman', Times, serif;
+    margin-top: 1rem;
+}
+
+.forecast-item {
+    display: block;
+    min-height: 40vh;
+    background-color: rgb(255, 255, 255, 0.7);
+    padding: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.forecast-item-date {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.forecast-item-condition {
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-bottom: 0.1rem solid black;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hidden {
+    display: none;
 }

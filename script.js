@@ -4,6 +4,12 @@ const searchBtn = document.querySelector('.search-btn')
 const searchResults = document.querySelector('.search-results')
 const searchForm = document.querySelector('.search-bar-container')
 const currentWeatherDisplay = document.querySelector('.current-weather-display')
+const weatherForecastContainer = document.querySelector(
+  '.weather-forecast-container'
+)
+const weatherForecastDisplay = document.querySelector(
+  '.weather-forecast-display'
+)
 
 async function getWeatherForecastData (searchKey) {
   const url = `http://api.weatherapi.com/v1/forecast.json?key=aadb07c391574a3fbe4110959231408&q=${searchKey}&days=3&aqi=no&alerts=no`
@@ -89,7 +95,7 @@ async function displayCurrentWeather (dataAsync) {
     const precip = createListItem('Precipitation (mm)', data.current.precip)
     const uv = createListItem('UV Index', data.current.uv)
 
-    currentWeatherDisplay.classList.add('visible')
+    currentWeatherDisplay.classList.remove('hidden')
     currentWeatherDisplay.append(
       nameOfPlace,
       region,
@@ -106,7 +112,55 @@ async function displayCurrentWeather (dataAsync) {
 
 function clearDisplay () {
   currentWeatherDisplay.innerHTML = ''
-  currentWeatherDisplay.classList.remove('visible')
+  currentWeatherDisplay.classList.add('hidden')
+  weatherForecastDisplay.innerHTML = ''
+  weatherForecastContainer.classList.add('hidden')
+}
+
+function forecastDisplayItemFactory (data) {
+  const icon = document.createElement('img')
+  icon.className = 'forecast-item-icon'
+  icon.src = `https:${data.condition.icon}`
+
+  const item = document.createElement('div')
+  item.className = 'forecast-item'
+
+  const date = document.createElement('div')
+  date.className = 'forecast-item-date'
+  date.textContent = data.date
+
+  const condition = document.createElement('div')
+  condition.className = 'forecast-item-condition'
+  condition.textContent = data.condition.text
+
+  const maxTemp = createListItem('Maximum temp (°C)', data.maxtemp)
+  const minTemp = createListItem('Minimum temp (°C)', data.mintemp)
+  const avgTemp = createListItem('Average temp (°C)', data.avgtemp)
+  const avgHumidity = createListItem('Average humidity', data.avghumidity)
+  const chanceOfRain = createListItem('Chance of rain',  `${data.chance_of_rain}%`)
+
+  item.append(
+    icon,
+    date,
+    condition,
+    maxTemp,
+    minTemp,
+    avgTemp,
+    avgHumidity,
+    chanceOfRain
+  )
+
+  return item
+}
+
+async function displayWeatherForecast (dataAsync) {
+  try {
+    const data = await dataAsync
+    const forecastDisplayItems = data.forecast
+      .map(forecastDisplayItemFactory)
+      .forEach(item => weatherForecastDisplay.appendChild(item))
+    weatherForecastContainer.classList.remove('hidden')
+  } catch (error) {}
 }
 
 function handleSubmit_SearchForm (e) {
@@ -117,6 +171,7 @@ function handleSubmit_SearchForm (e) {
   const processedData = processJSONData(data)
   displaySearchResults(processedData)
   displayCurrentWeather(processedData)
+  displayWeatherForecast(processedData)
 }
 
 searchForm.addEventListener('submit', handleSubmit_SearchForm)
