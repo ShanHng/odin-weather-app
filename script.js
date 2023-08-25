@@ -1,3 +1,6 @@
+const searchInput = document.querySelector('input#search-location')
+const searchBtn = document.querySelector('.search-btn')
+
 async function getWeatherForecastData (searchKey) {
   const url = `http://api.weatherapi.com/v1/forecast.json?key=aadb07c391574a3fbe4110959231408&q=${searchKey}&days=3&aqi=no&alerts=no`
   const response = await fetch(url)
@@ -37,3 +40,12 @@ async function processJSONData (jsonData) {
   console.log(processedData)
   return processedData
 }
+
+function handleClick_SearchBtn () {
+    const searchKey = searchInput.value
+    const data = getWeatherForecastData(searchKey)
+    const processedData = processJSONData(data)
+    processedData.then(console.log)
+}
+
+searchBtn.addEventListener('click', handleClick_SearchBtn)
