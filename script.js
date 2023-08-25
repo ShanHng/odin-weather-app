@@ -10,6 +10,8 @@ const weatherForecastContainer = document.querySelector(
 const weatherForecastDisplay = document.querySelector(
   '.weather-forecast-display'
 )
+const loader = document.querySelector('.loader')
+const body = document.querySelector('body')
 
 async function getWeatherForecastData (searchKey) {
   const url = `http://api.weatherapi.com/v1/forecast.json?key=aadb07c391574a3fbe4110959231408&q=${searchKey}&days=3&aqi=no&alerts=no`
@@ -137,7 +139,10 @@ function forecastDisplayItemFactory (data) {
   const minTemp = createListItem('Minimum temp (°C)', data.mintemp)
   const avgTemp = createListItem('Average temp (°C)', data.avgtemp)
   const avgHumidity = createListItem('Average humidity', data.avghumidity)
-  const chanceOfRain = createListItem('Chance of rain',  `${data.chance_of_rain}%`)
+  const chanceOfRain = createListItem(
+    'Chance of rain',
+    `${data.chance_of_rain}%`
+  )
 
   item.append(
     icon,
@@ -166,12 +171,30 @@ async function displayWeatherForecast (dataAsync) {
 function handleSubmit_SearchForm (e) {
   e.preventDefault()
   clearDisplay()
+  showLoader()
   const searchKey = searchInput.value
   const data = getWeatherForecastData(searchKey)
   const processedData = processJSONData(data)
   displaySearchResults(processedData)
   displayCurrentWeather(processedData)
   displayWeatherForecast(processedData)
+  processedData.then(hideLoader).catch(hideLoader)
+}
+
+function showLoader () {
+  loader.classList.remove('hidden')
+}
+
+function hideLoader () {
+  loader.classList.add('hidden')
 }
 
 searchForm.addEventListener('submit', handleSubmit_SearchForm)
+window.addEventListener('load', () => {
+  console.log('load')
+  loader.classList.add('hidden')
+})
+window.addEventListener('unload', () => {
+  console.log('unload')
+  loader.classList.remove('hidden')
+})
