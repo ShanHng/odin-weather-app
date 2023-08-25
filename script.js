@@ -27,7 +27,9 @@ async function processJSONData (jsonData) {
     current: {
       feelslike: data.current.feelslike_c,
       temp: data.current.temp_c,
-      wind: data.current.wind,
+      wind: data.current.wind_kph,
+      uv: data.current.uv,
+      precip: data.current.precip_mm,
       humidity: data.current.humidity,
       condition: data.current.condition,
       last_updated: data.current.last_updated
@@ -69,7 +71,7 @@ async function displaySearchResults (dataAsync) {
 
 function createListItem (label, data) {
   const listItem = document.createElement('div')
-  listItem.textContent = `${label} : ${data ? data : 'Unavailable'}`
+  listItem.textContent = `${label} : ${data ?? 'Unavailable'}`
   return listItem
 }
 
@@ -82,8 +84,10 @@ async function displayCurrentWeather (dataAsync) {
     const country = createListItem('Country', data.location.country)
     const feelsLike = createListItem('Feels like', data.current.feelslike)
     const temp = createListItem('Temperature (°C)', data.current.temp)
-    const wind = createListItem('Wind speed (in km per hour', data.current.wind)
+    const wind = createListItem('Wind speed (km per hour)', data.current.wind)
     const lastUpdate = createListItem('Last updated', data.current.last_updated)
+    const precip = createListItem('Precipitation (mm)', data.current.precip)
+    const uv = createListItem('UV Index', data.current.uv)
 
     currentWeatherDisplay.classList.add('visible')
     currentWeatherDisplay.append(
@@ -93,6 +97,8 @@ async function displayCurrentWeather (dataAsync) {
       feelsLike,
       temp,
       wind,
+      precip,
+      uv,
       lastUpdate
     )
   } catch (err) {}
