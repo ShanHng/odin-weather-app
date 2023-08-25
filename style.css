@@ -1,38 +1,69 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+    --search-results-icon: url('')
 }
 
 body {
-    background-color: skyblue;
-    padding: 5vh;
+  background-color: skyblue;
+  padding: 5vh 30vh;
 }
 
 .page-title {
-    color: rgb(255, 255, 0);
-    font-family:'Times New Roman', Times, serif;
-    font-size: 3rem;
-    font-weight: bold;
-    text-align: center;
+  color: rgb(255, 255, 0);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 .search-bar-container {
-    margin: 1rem;
-    text-align: center;
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-    font-size: 1rem;
+  margin: 1rem;
+  text-align: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  font-size: 1rem;
 }
 
 input#search-location {
-    height: 1.5rem;
-    width: 30vw;
-    padding: 0.5rem;
-    font-size: inherit;
+  height: 1.5rem;
+  width: 30vw;
+  padding: 0.5rem;
+  font-size: inherit;
 }
 
 .search-btn {
-    padding: 0rem 1rem;
-    font-size: inherit;
+  padding: 0rem 1rem;
+  font-size: inherit;
+}
+
+.search-results {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1.5rem;
+}
+
+.search-results::after {
+  content: '';
+  background-image: var(--search-results-icon);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 2rem;
+  width: 2rem;
+  display: inline-block; 
+  transform: translate(0, 25%); 
+  margin-left: 0.1rem;
+}
+
+.current-weather-display {
+    background-color: rgb(255, 255, 255, 0.7);
+    padding: 0.5rem;
+    display: none;
+}
+
+.visible {
+    display: block;
 }

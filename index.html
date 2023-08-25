@@ -9,10 +9,18 @@
   </head>
   <body>
     <div class="page-title">Quel temps fait-il?</div>
-    <div class="search-bar-container">
-      <input type="text" id="search-location" placeholder="Enter a location" />
-      <button type="button" class="search-btn">Search</button>
-    </div>
+    <form id="search" class="search-bar-container">
+      <input
+        type="text"
+        id="search-location"
+        placeholder="Enter a location"
+        required
+      />
+      <button type="submit" form="search" class="search-btn">Search</button>
+    </form>
     <div class="search-results"></div>
+    <div class="current-weather-display">
+    
+    </div>
   </body>
 </html>
